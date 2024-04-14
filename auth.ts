@@ -1,11 +1,14 @@
 import NextAuth from "next-auth"
-
+import type { Adapter } from 'next-auth/adapters';
 import Google from "next-auth/providers/google"
 
 import type { NextAuthConfig } from "next-auth"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import db from "@/lib/prisma"
 
 export const config = {
   theme: { logo: "https://authjs.dev/img/logo-sm.png" },
+  adapter: PrismaAdapter(db) as Adapter,
   providers: [
     Google,
   ],
@@ -24,3 +27,4 @@ export const config = {
 } satisfies NextAuthConfig
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config)
+
