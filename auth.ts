@@ -1,29 +1,17 @@
+export const runtime = "nodejs";
+
 import NextAuth from "next-auth"
 import type { Adapter } from 'next-auth/adapters';
-import Google from "next-auth/providers/google"
+import authConfig from "@/auth.config"
 
 import type { NextAuthConfig } from "next-auth"
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import db from "@/lib/prisma"
 
 export const config = {
-  theme: { logo: "https://authjs.dev/img/logo-sm.png" },
   adapter: PrismaAdapter(db) as Adapter,
-  providers: [
-    Google,
-  ],
-  basePath: "/auth",
-  callbacks: {
-    authorized({ request, auth }) {
-      const { pathname } = request.nextUrl
-      if (pathname === "/middleware-example") return !!auth
-      return true
-    },
-    jwt({ token, trigger, session }) {
-      if (trigger === "update") token.name = session.user.name
-      return token
-    },
-  },
+  session: {strategy: "jwt"},
+  ...authConfig
 } satisfies NextAuthConfig
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config)
