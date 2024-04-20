@@ -11,7 +11,15 @@ export default {
         },
         jwt({ token, trigger, session }) {
             if (trigger === "update") token.name = session.user.name
-            return token
+            return token;
         },
+        async session({ token, session }) {
+            if (token) {
+              session.user.id = token.sub!;
+              session.user.name = token.name;
+            }
+      
+            return session;
+          },
     }, theme: { logo: "https://authjs.dev/img/logo-sm.png" },
 } satisfies NextAuthConfig

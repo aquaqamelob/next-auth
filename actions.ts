@@ -6,6 +6,8 @@ import db from "@/lib/prisma"
 export async function createRateLimit() {
     const session = await auth();
 
+    console.log(session);
+
     if (!session?.user?.id) {
         return;
     }
@@ -34,6 +36,7 @@ export async function createRateLimit() {
 export async function getRateLimits() {
     const session = await auth();
 
+
     if (!session?.user?.id) {
         return;
     }
@@ -55,8 +58,6 @@ export async function increaseRequests() {
     let rateLimit = await db.rateLimit.findUnique({
         where: { userId: session.user.id }
     });
-
-
 
     const updatedRateLimit = await db.rateLimit.update({
         where: { userId: session.user.id },
