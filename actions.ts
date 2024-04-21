@@ -16,9 +16,13 @@ export async function createRateLimit() {
         where: { userId: session.user.id }
     });
 
+    console.log(rateLimit);
+
     if (rateLimit) {
         return;
     }
+
+    console.log(session.user.id)
 
     rateLimit = await db.rateLimit.create({
         data: {
@@ -36,13 +40,11 @@ export async function createRateLimit() {
 export async function getRateLimits() {
     const session = await auth();
 
-
     if (!session?.user?.id) {
         return;
     }
 
     const rateLimits = await db.rateLimit.findMany({ where: { userId: session.user.id } })
-
 
     return rateLimits;
 }
