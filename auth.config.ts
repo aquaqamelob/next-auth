@@ -2,7 +2,7 @@ import type { NextAuthConfig } from "next-auth"
 import Google from "next-auth/providers/google"
 
 export default {
-    providers: [Google], basePath: "/auth",
+    providers: [Google], basePath: "/api/auth",
     callbacks: {
         authorized({ request, auth }) {
             const { pathname } = request.nextUrl
@@ -13,13 +13,13 @@ export default {
             if (trigger === "update") token.name = session.user.name
             return token;
         },
-        async session({ token, session }) {
+        async session({ token, session  }) {
             if (token) {
-              session.user.id = token.sub!;
-              session.user.name = token.name;
+                session.user.id = token.sub!;
+                session.user.name = token.name;
             }
-      
+            
             return session;
-          },
+        },
     }, theme: { logo: "https://authjs.dev/img/logo-sm.png" },
 } satisfies NextAuthConfig

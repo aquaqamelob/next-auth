@@ -6,7 +6,7 @@ export default async function ClientPage() {
   const session = await auth()
 
   return (
-    <SessionProvider basePath={"/auth"} session={session}>
+    <SessionProvider basePath={"/api/auth"} session={session}>
       <ClientExample />
     </SessionProvider>
   )
