@@ -22,4 +22,9 @@ export default {
             return session;
         },
     }, theme: { logo: "https://authjs.dev/img/logo-sm.png" },
+
+    pages: {
+        signIn: "/signin"
+    }
+    
 } satisfies NextAuthConfig
